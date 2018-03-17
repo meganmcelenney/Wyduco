@@ -1,0 +1,101 @@
+/*
+Megan McElenney
+October 17 2017
+
+This program plays the game Wyduco where random numbers are generated and if 
+the sums of all the rows and columns are the same then the player wins.
+
+Test Data:
+I test the data by having the code output the sum of each row and each column.
+If the sums and columns are the same then it outputs "You win!!" If there is a 
+row or column sum not equal to the others then the code outputs "Play again." 
+*/
+
+
+
+package wyducomcelenney;
+
+import javax.swing.JOptionPane;
+
+public class WyducoMcElenney 
+{
+
+    public static void main(String[] args) 
+    {
+        int n = 0;
+        boolean winner = true;
+        n = Integer.parseInt(JOptionPane.showInputDialog("Input the how big"
+                + " you want the Wyduco board."));
+        int [][] matrix = new int [n][n];
+        int [] colSum = new int [n];
+        int [] rowSum = new int[n];
+        for(int row = 0; row < matrix.length; row++)
+        {
+            int rand = 0;
+            int [] tempArray = new int [n];
+            for(int col = 0; col < matrix[0].length; col++)
+            {
+                do
+                {
+                   rand = (int) (Math.random()* (n) + 1);
+                }
+                while(tempArray[rand-1] > 0);
+                {
+                    tempArray[rand-1] = 1;
+                }
+                matrix[row][col] = rand;
+                System.out.print(matrix[row][col] + " \t");
+            }
+            System.out.println();
+        }
+        //scoring for rows
+        for(int row = 0; row < matrix.length; row++)
+        {
+            int sum = 0;
+            int tempSum = 0;
+            for(int col = 0; col < matrix[0].length - 1; col+=2)
+            {
+                tempSum = matrix[row][col] + matrix[row][col+1];
+                sum = sum + tempSum;
+                rowSum[row] = sum;
+            }
+            if(n%2 != 0)
+               sum = sum + matrix[row][matrix.length-1];
+            System.out.println("This row's sum is " + sum);
+        }
+        //scoring for columns
+        for(int col = 0; col < matrix[0].length; col++)
+        {
+            int sum = 0;
+            int tempSum = 0;
+            int count = 0;
+            for(int row = 0; row < matrix.length -1; row+=2)
+            {
+                tempSum = matrix[row][col] + matrix[row +1][col];
+                sum = sum + tempSum;
+                colSum[col] = sum;
+            }
+            if(n%2 != 0)
+               sum = sum + matrix[matrix.length-1][col];
+            System.out.println("This column's sum is " + sum);
+        }
+        
+        for(int s = 0; s <colSum.length-1; s++)
+            {
+                if(colSum[s] !=colSum[s+1])
+                    winner = false;
+            }
+        for(int s = 0; s <rowSum.length-1; s++)
+            {
+                if(rowSum[s] !=rowSum[s+1])
+                    winner = false;
+            }
+
+        if(!winner)
+            System.out.println("Play again.");
+        else
+            System.out.println("You win!!");
+
+    }
+    
+}
